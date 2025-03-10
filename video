@@ -1,0 +1,25 @@
+import cv2
+cap = cv2.VideoCapture(0)
+cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1280)
+cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)
+bRec = False
+while True:
+    ch = cv2.waitKey(33)
+    ret, frame = cap.read()
+    cv2.imshow('VideoFrame', frame)
+    if ch == ord('s'):           # s 버튼이 눌리면
+        cv2.imwrite('image.jpg', frame)
+    if ch == ord('r'):           # r 버튼이 눌리면
+        if not bRec:
+            outputVideo = cv2.VideoWriter('Video.avi', 
+                                           cv2.VideoWriter_fourcc(*'DIVX'), 
+                                           30.0, (1280, 720))
+            bRec = True
+        else:
+            outputVideo.release()
+    if bRec:
+        outputVideo.write(frame)
+    if ch == ord('q'):         # q 버튼이 눌리면
+        break
+cap.release()
+cv2.destroyAllWindows()
